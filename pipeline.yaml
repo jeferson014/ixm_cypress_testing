@@ -1,0 +1,20 @@
+steps:
+- task: NodeTool@0
+  displayName: 'Use Node 20.x'
+  inputs:
+    versionSpec: 20.x
+steps:
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    workingDir: '$(System.DefaultWorkingDirectory)/_ixm-nexus-test'
+    verbose: false
+steps:
+- task: Npm@1
+  displayName: 'npm test'
+  inputs:
+    command: custom
+    workingDir: '$(System.DefaultWorkingDirectory)/_ixm-nexus-test'
+    verbose: false
+    customCommand: 'run test-report'
+  continueOnError: true

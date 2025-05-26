@@ -1,0 +1,3 @@
+﻿_key,aq_lot,client,supplier,product,purchase_contract,quality,delivery,lot_size,supervisor,pile,contract_service,wmt,h2o,open_date,close_date,confirmation_date,state,cancellation_reason
+scenario01,test,20600733967 - IXM TRADING,20100108292 - ALPAYANA,Ag Conc.,IXT.300.24034.0.P,,,,BVI,,IXCC24050 - Ag Conc.,125.321,12.35121,24/12/2024,,,,
+scenario02,test,20600733967 - IXM TRADING,20100108292 - ALPAYANA,Ag Conc.,IXT.300.24034.0.P,,,,BVI,,IXCC24066 - Ag Conc.,125.321,12.35121,,,,,

@@ -1,0 +1,3 @@
+﻿_key,aq_lot,client,supplier,product,purchase_contract,quality,delivery,lot_size,supervisor,pile,contract_service,wmt,h2o,open_date,close_date,confirmation_date,state,cancellation_reason
+scenario01,test,20600733967 - IXM TRADIN,20605516280 - ALTAMIR PE,Ag Conc.,IXT.300.24061.0.P,,,,SGS,,,125.321,12.35121,24/12/24,,,,
+scenario02,test,20600733967 - IXM TRADIN,20605516280 - ALTAMIR PE,Ag Conc.,IXT.300.24009.0.P,,,,SGS,,,125.321,12.35121,,,,,

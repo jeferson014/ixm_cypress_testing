@@ -1,0 +1,33 @@
+[
+  {
+    "description": "    Pruebas",
+    "keyword": "Feature",
+    "name": "Test",
+    "line": 1,
+    "id": "test",
+    "tags": [],
+    "uri": "test.feature",
+    "elements": [
+      {
+        "id": "test;tests",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "Tests",
+        "tags": [],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 5,
+            "name": "Ingresar",
+            "result": {
+              "status": "passed",
+              "duration": 3485000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

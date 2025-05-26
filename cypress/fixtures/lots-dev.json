@@ -1,0 +1,42 @@
+{
+  "scenario01": {
+    "aq_lot": "test",
+    "client": "20600733967 - IXM TRADING",
+    "supplier": "20100108292 - ALPAYANA",
+    "product": "Ag Conc.",
+    "purchase_contract": "IXT.300.24034.0.P",
+    "quality": "",
+    "delivery": "",
+    "lot_size": "",
+    "supervisor": "BVI",
+    "pile": "",
+    "contract_service": "IXCC24050 - Ag Conc.",
+    "wmt": "125.321",
+    "h2o": "12.35121",
+    "open_date": "24/12/2024",
+    "close_date": "",
+    "confirmation_date": "",
+    "state": "",
+    "cancellation_reason": ""
+  },
+  "scenario02": {
+    "aq_lot": "test",
+    "client": "20600733967 - IXM TRADING",
+    "supplier": "20100108292 - ALPAYANA",
+    "product": "Ag Conc.",
+    "purchase_contract": "IXT.300.24034.0.P",
+    "quality": "",
+    "delivery": "",
+    "lot_size": "",
+    "supervisor": "BVI",
+    "pile": "",
+    "contract_service": "IXCC24066 - Ag Conc.",
+    "wmt": "125.321",
+    "h2o": "12.35121",
+    "open_date": "",
+    "close_date": "",
+    "confirmation_date": "",
+    "state": "",
+    "cancellation_reason": ""
+  }
+}
