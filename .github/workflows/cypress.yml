@@ -88,10 +88,10 @@ jobs:
         uses: skitionek/notify-microsoft-teams@v1.0.9
         with:
           webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          # Mensaje personalizable para Teams
-          message: |-
-            Resultados de las pruebas Cypress en ${{ github.repository }}
-            Status: ${{ job.status }}
-            Commit: ${{ github.sha }}
-            Branch: ${{ github.ref }}
-            Ver detalles aquí: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          needs: ${{ toJson(needs) }}
+          # Puedes añadir un título opcional si quieres
+          # title: 'Resultados de Pruebas Cypress'
+          # Opcionalmente, puedes añadir emails para etiquetar en Teams
+          # msteams_emails: 'correo1@ejemplo.com,correo2@ejemplo.com'
