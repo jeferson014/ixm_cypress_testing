@@ -85,9 +85,9 @@ jobs:
       # Paso 8: Enviar notificación a Microsoft Teams
       - name: Send Teams notification
         if: always()
-        uses: microsoft/teams-notify@v2
+        uses: skitionek/notify-microsoft-teams@v1.0.9
         with:
-          webhook: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
           # Mensaje personalizable para Teams
           message: |-
             Resultados de las pruebas Cypress en ${{ github.repository }}
