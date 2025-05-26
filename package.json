@@ -5,8 +5,12 @@
   "private": true,
   "main": "index.js",
   "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
     "test": "cypress open --browser electron --e2e",
-    "test-report": "npx cypress run"
+    "test-report": "npx cypress run",
+    "start": "cypress open",
+    "build": "cypress run"
   },
   "author": "CC",
   "license": "ISC",

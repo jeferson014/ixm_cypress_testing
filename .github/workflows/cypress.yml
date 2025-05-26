@@ -1,26 +1,64 @@
+# Nombre del workflow que aparecerá en la pestaña Actions de GitHub
 name: Cypress Tests
 
+# Define cuándo se ejecutará el pipeline
 on:
+  # Se ejecutará cuando haya un push a la rama main
   push:
     branches: [ main ]
+  # Se ejecutará cuando haya un pull request a la rama main
   pull_request:
     branches: [ main ]
 
+# Define los jobs que se ejecutarán
 jobs:
+  # Nombre del job
   cypress-run:
+    # Especifica el sistema operativo donde se ejecutará
     runs-on: ubuntu-latest
+    
+    # Define los pasos que se ejecutarán en secuencia
     steps:
+      # Paso 1: Obtener el código del repositorio
       - name: Checkout
+        # Usa la acción oficial de GitHub para hacer checkout del código
         uses: actions/checkout@v3
 
+      # Paso 2: Ejecutar las pruebas de Cypress
       - name: Cypress run
+        # Usa la acción oficial de Cypress para GitHub Actions
         uses: cypress-io/github-action@v6
+        # Configuración específica de la acción
         with:
+          # Comando para iniciar la aplicación
           start: npm start
-          wait-on: 'http://localhost:4200'
-          config: baseUrl=http://localhost:4200
+          # Espera a que la URL esté disponible antes de ejecutar las pruebas
+          wait-on: 'https://ixm-nexusdev.azurewebsites.net'
+          # Configura la URL base para las pruebas
+          config: baseUrl=https://ixm-nexusdev.azurewebsites.net
+          # Especifica el navegador a usar
           browser: chrome
-          record: true
+          # Desactivamos la grabación en Cypress Cloud
+          record: false
+        # Variables de entorno necesarias
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          # Token de GitHub para autenticación
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Paso 3: Subir las grabaciones al repositorio
+      - name: Upload Cypress videos
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          retention-days: 30
+
+      # Paso 4: Subir las capturas de pantalla al repositorio
+      - name: Upload Cypress screenshots
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          retention-days: 30

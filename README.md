@@ -12,7 +12,7 @@ Este proyecto contiene pruebas automatizadas para el sistema de login utilizando
 
 1. Clonar el repositorio:
 ```bash
-git clone [URL_DEL_REPOSITORIO]
+git clone https://github.com/jeferson014/cypress_ixm.git
 ```
 
 2. Instalar dependencias:
@@ -56,6 +56,11 @@ El proyecto utiliza GitHub Actions para la integración continua. Las pruebas se
 2. Agregar los siguientes secrets en la configuración del repositorio:
    - `CYPRESS_RECORD_KEY`: Clave de Cypress Cloud (opcional)
    - `GITHUB_TOKEN`: Token de GitHub (se genera automáticamente)
+
+## Entorno de Pruebas
+
+Las pruebas se ejecutan contra el entorno de desarrollo:
+- URL Base: https://ixm-nexusdev.azurewebsites.net
 
 ## Contribución
 

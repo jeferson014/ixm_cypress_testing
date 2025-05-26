@@ -19,7 +19,7 @@ module.exports = defineConfig({
     },
     chromeWebSecurity: false,
     //numTestsKeptInMemory: 0,
-    baseUrl: 'http://localhost:4200',
+    baseUrl: 'https://ixm-nexusdev.azurewebsites.net',
     viewportWidth: 1280,
     viewportHeight: 720,
     video: true,
