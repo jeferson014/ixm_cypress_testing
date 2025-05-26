@@ -85,13 +85,13 @@ jobs:
       # Paso 8: Enviar notificación a Microsoft Teams
       - name: Send Teams notification
         if: always()
-        uses: skitionek/notify-microsoft-teams@v1.0.9
+        uses: marketplace-actions/send-to-microsoft-teams-webhook@v1
         with:
-          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          job: ${{ toJson(job) }}
-          steps: ${{ toJson(steps) }}
-          needs: ${{ toJson(needs) }}
-          # Puedes añadir un título opcional si quieres
-          # title: 'Resultados de Pruebas Cypress'
-          # Opcionalmente, puedes añadir emails para etiquetar en Teams
-          # msteams_emails: 'correo1@ejemplo.com,correo2@ejemplo.com'
+          webhook: ${{ secrets.MSTEAMS_WEBHOOK }}
+          message: |-
+            Resultados de las pruebas Cypress en ${{ github.repository }}
+            Status: ${{ job.status }}
+            Commit: ${{ github.sha }}
+            Branch: ${{ github.ref_name }}
+            Ver detalles de la ejecución aquí: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            ${{ job.status == 'success' && ':large_green_circle:' || ':red_circle:' }}
