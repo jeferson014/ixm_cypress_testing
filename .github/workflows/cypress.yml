@@ -24,7 +24,17 @@ jobs:
         # Usa la acción oficial de GitHub para hacer checkout del código
         uses: actions/checkout@v3
 
-      # Paso 2: Ejecutar las pruebas de Cypress
+      # Paso 2: Instalar dependencias (esto también generará el lockfile si no existe y se ejecuta 'npm install')
+      - name: Install Dependencies
+        run: npm ci
+
+      # Paso 3: Crear directorios para videos y screenshots si no existen
+      - name: Create Cypress directories
+        run: |
+          mkdir -p cypress/videos
+          mkdir -p cypress/screenshots
+        
+      # Paso 4: Ejecutar las pruebas de Cypress
       - name: Cypress run
         # Usa la acción oficial de Cypress para GitHub Actions
         uses: cypress-io/github-action@v6
@@ -45,7 +55,7 @@ jobs:
           # Token de GitHub para autenticación
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Paso 3: Subir las grabaciones al repositorio
+      # Paso 5: Subir las grabaciones al repositorio como artefactos
       - name: Upload Cypress videos
         uses: actions/upload-artifact@v4
         if: always()
@@ -54,7 +64,7 @@ jobs:
           path: cypress/videos
           retention-days: 30
 
-      # Paso 4: Subir las capturas de pantalla al repositorio
+      # Paso 6: Subir las capturas de pantalla al repositorio como artefactos
       - name: Upload Cypress screenshots
         uses: actions/upload-artifact@v4
         if: always()
