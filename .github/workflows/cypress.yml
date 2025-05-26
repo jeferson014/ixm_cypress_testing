@@ -47,7 +47,7 @@ jobs:
 
       # Paso 3: Subir las grabaciones al repositorio
       - name: Upload Cypress videos
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: cypress-videos
@@ -56,7 +56,7 @@ jobs:
 
       # Paso 4: Subir las capturas de pantalla al repositorio
       - name: Upload Cypress screenshots
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: cypress-screenshots
