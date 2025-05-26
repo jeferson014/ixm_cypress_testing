@@ -72,3 +72,26 @@ jobs:
           name: cypress-screenshots
           path: cypress/screenshots
           retention-days: 30
+
+      # Paso 7: Subir el reporte Mochawesome como artefacto
+      - name: Upload Mochawesome Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mochawesome-report
+          path: cypress/reports/html
+          retention-days: 30
+
+      # Paso 8: Enviar notificación a Microsoft Teams
+      - name: Send Teams notification
+        if: always()
+        uses: microsoft/teams-notify@v2
+        with:
+          webhook: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          # Mensaje personalizable para Teams
+          message: |-
+            Resultados de las pruebas Cypress en ${{ github.repository }}
+            Status: ${{ job.status }}
+            Commit: ${{ github.sha }}
+            Branch: ${{ github.ref }}
+            Ver detalles aquí: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
