@@ -63,9 +63,9 @@ yarn-debug.log
 yarn-error.log
 
 # Archivos de Cypress
-cypress/videos/
-cypress/screenshots/
-cypress/downloads/
+#cypress/videos/
+#cypress/screenshots/
+#cypress/downloads/
 
 # Archivos del sistema
 .DS_Store
