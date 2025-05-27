@@ -95,7 +95,12 @@ jobs:
           cp -R cypress/reports/html/* docs/
         if: success()
         
-      # Paso 10: Commitear y pushear los cambios a la rama main para GitHub Pages 22
+      # Paso 10: Crear .nojekyll file para evitar que GitHub Pages use Jekyll
+      - name: Create .nojekyll file
+        run: echo "" > docs/.nojekyll
+        if: success()
+        
+      # Paso 11: Commitear y pushear los cambios a la rama main para GitHub Pages
       - name: Deploy Report to GitHub Pages
         run: |
           git add docs
@@ -103,11 +108,19 @@ jobs:
           git push origin main
         if: success()
 
-      # Paso 11: Enviar notificación a Microsoft Teams
+      # Paso 12: Enviar notificación a Microsoft Teams
       - name: Send Teams notification
         if: always()
-        uses: freezer00/teams-webhook-action@v1.4.2
+        uses: jdcargile/ms-teams-notification@v1.4
         with:
-          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          job: ${{ toJson(job) }}
-          needs: ${{ toJson(needs) }}
+          github-token: ${{ github.token }}
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: |-
+            Resultados de las pruebas Cypress en ${{ github.repository }}
+            Status: ${{ job.status }}
+            Commit: ${{ github.sha }}
+            Branch: ${{ github.ref_name }}
+            Ver detalles de la ejecución aquí: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            ${{ job.status == 'success' && ':large_green_circle:' || ':red_circle:' }}
+          # Opcional: Cambiar el color de la notificación según el estado
+          notification-color: ${{ job.status == 'success' && '28a745' || 'dc3545' }}
