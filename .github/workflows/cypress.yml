@@ -106,27 +106,30 @@ jobs:
         # Intentar copiar siempre si Cypress corrió (éxito o fallo)
         if: always()
 
-      # Paso 10: Commitear y pushear los videos a la rama main
-      - name: Deploy Videos to GitHub Repo
+      # Paso 10: Copiar los screenshots a una carpeta en el repositorio
+      - name: Copy Screenshots to Repo Folder
+        run: |
+          mkdir -p uploaded-screenshots
+          # Usar find para copiar solo si hay archivos (evitar error si la carpeta está vacía)
+          find cypress/screenshots/ -mindepth 1 -maxdepth 1 -exec cp -R {} uploaded-screenshots/ \; || echo "No screenshots found to copy."
+        # Intentar copiar siempre si Cypress corrió (éxito o fallo)
+        if: always()
+
+      # Paso 11: Commitear y pushear los artefactos a la rama main
+      - name: Deploy Artifacts to GitHub Repo
         run: |
           # Configurar la identidad de Git ANTES de commitear
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Agregar los archivos copiados
-          git add -f uploaded-videos/ cypress/reports/html/videos/
+          # Agregar los archivos copiados (videos, screenshots y reporte html)
+          git add -f uploaded-videos/ uploaded-screenshots/ docs/
           # Commitear solo si hay cambios staged, ignorar error si no hay nada
-          git commit -m "feat: Cargar videos de Cypress a uploaded-videos [skip ci]" || true
+          git commit -m "feat: Cargar artefactos de Cypress [skip ci]" || true
           # Pushear a la rama main
           git push origin main
         # Intentar pushear siempre si se intentó copiar (el commit || true maneja el caso sin cambios)
         if: always()
 
-      # Paso 11: Configurar Git para commitear desde el workflow para el reporte
-      - name: Git Config
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
       # Paso 12: Copiar el reporte a la carpeta docs
       - name: Copy Report to Docs
         run: |
