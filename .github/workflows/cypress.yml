@@ -96,18 +96,25 @@ jobs:
       - name: Copy Videos to Repo Folder
         run: |
           mkdir -p uploaded-videos
-          cp -R cypress/videos/* uploaded-videos/
-        # Solo copiar si hay videos generados
-        if: success() || failure()
+          # Usar find para copiar solo si hay archivos (evitar error si la carpeta está vacía)
+          find cypress/videos/ -mindepth 1 -maxdepth 1 -exec cp -R {} uploaded-videos/ \; || echo "No videos found to copy."
+        # Intentar copiar siempre si Cypress corrió (éxito o fallo)
+        if: always()
 
       # Paso 9: Commitear y pushear los videos a la rama main
       - name: Deploy Videos to GitHub Repo
         run: |
+          # Configurar la identidad de Git ANTES de commitear
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Agregar los archivos copiados
           git add uploaded-videos/
+          # Commitear solo si hay cambios staged, ignorar error si no hay nada
           git commit -m "feat: Cargar videos de Cypress a uploaded-videos [skip ci]" || true
+          # Pushear a la rama main
           git push origin main
-        # Solo intentar commitear y pushear si hay archivos para agregar
-        if: success() || failure()
+        # Intentar pushear siempre si se intentó copiar (el commit || true maneja el caso sin cambios)
+        if: always()
 
       # Paso 10: Configurar Git para commitear desde el workflow para el reporte
       - name: Git Config
