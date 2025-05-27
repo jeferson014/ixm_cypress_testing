@@ -70,6 +70,7 @@ yarn-error.log
 #cypress/downloads/
 !cypress/reports/.gitkeep
 !cypress/reports/html/.gitkeep
+!cypress/reports/html/videos/.gitkeep
 
 # Archivos del sistema
 .DS_Store

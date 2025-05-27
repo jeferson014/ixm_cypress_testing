@@ -92,7 +92,12 @@ jobs:
           path: cypress/reports/html
           retention-days: 30
 
-      # Paso 8: Copiar los videos a una carpeta en el repositorio
+      # Paso 8: Listar contenido de cypress/videos para depurar
+      - name: List Cypress Videos Content
+        run: ls -l cypress/videos/
+        if: always()
+
+      # Paso 9: Copiar los videos a una carpeta en el repositorio
       - name: Copy Videos to Repo Folder
         run: |
           mkdir -p uploaded-videos
@@ -101,14 +106,14 @@ jobs:
         # Intentar copiar siempre si Cypress corrió (éxito o fallo)
         if: always()
 
-      # Paso 9: Commitear y pushear los videos a la rama main
+      # Paso 10: Commitear y pushear los videos a la rama main
       - name: Deploy Videos to GitHub Repo
         run: |
           # Configurar la identidad de Git ANTES de commitear
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # Agregar los archivos copiados
-          git add uploaded-videos/
+          git add uploaded-videos/ cypress/reports/html/videos/
           # Commitear solo si hay cambios staged, ignorar error si no hay nada
           git commit -m "feat: Cargar videos de Cypress a uploaded-videos [skip ci]" || true
           # Pushear a la rama main
@@ -116,25 +121,25 @@ jobs:
         # Intentar pushear siempre si se intentó copiar (el commit || true maneja el caso sin cambios)
         if: always()
 
-      # Paso 10: Configurar Git para commitear desde el workflow para el reporte
+      # Paso 11: Configurar Git para commitear desde el workflow para el reporte
       - name: Git Config
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-      # Paso 11: Copiar el reporte a la carpeta docs
+      # Paso 12: Copiar el reporte a la carpeta docs
       - name: Copy Report to Docs
         run: |
           mkdir -p docs
           cp -R cypress/reports/html/* docs/
         if: success()
         
-      # Paso 12: Crear .nojekyll file para evitar que GitHub Pages use Jekyll
+      # Paso 13: Crear .nojekyll file para evitar que GitHub Pages use Jekyll
       - name: Create .nojekyll file
         run: echo "" > docs/.nojekyll
         if: success()
         
-      # Paso 13: Commitear y pushear los cambios a la rama main para GitHub Pages
+      # Paso 14: Commitear y pushear los cambios a la rama main para GitHub Pages
       - name: Deploy Report to GitHub Pages
         run: |
           git add docs
@@ -142,7 +147,7 @@ jobs:
           git push origin main
         if: success()
 
-      # Paso 14: Enviar notificación a Microsoft Teams demo
+      # Paso 15: Enviar notificación a Microsoft Teams demo
       - name: Send Teams notification
         if: always()
         uses: dchourasia/ms-teams-notification@1.0
