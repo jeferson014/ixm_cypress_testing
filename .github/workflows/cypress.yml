@@ -39,7 +39,7 @@ jobs:
           touch cypress/screenshots/.gitkeep
           touch cypress/reports/html/.gitkeep
           # Asegurar que las carpetas se mantengan en el repositorio
-          git add cypress/videos/.gitkeep cypress/screenshots/.gitkeep cypress/reports/html/.gitkeep
+          git add -f cypress/videos/.gitkeep cypress/screenshots/.gitkeep cypress/reports/html/.gitkeep cypress/reports/.gitkeep
           git commit -m "Asegurar que las carpetas de Cypress existan en el repositorio" || true
 
       # Paso 4: Ejecutar las pruebas de Cypress
