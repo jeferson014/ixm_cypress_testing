@@ -33,7 +33,15 @@ jobs:
         run: |
           mkdir -p cypress/videos
           mkdir -p cypress/screenshots
-        
+          mkdir -p cypress/reports/html
+          # Crear archivos .gitkeep para mantener las carpetas en el repositorio
+          touch cypress/videos/.gitkeep
+          touch cypress/screenshots/.gitkeep
+          touch cypress/reports/html/.gitkeep
+          # Asegurar que las carpetas se mantengan en el repositorio
+          git add cypress/videos/.gitkeep cypress/screenshots/.gitkeep cypress/reports/html/.gitkeep
+          git commit -m "Asegurar que las carpetas de Cypress existan en el repositorio" || true
+
       # Paso 4: Ejecutar las pruebas de Cypress
       - name: Cypress run
         # Usa la acción oficial de Cypress para GitHub Actions
