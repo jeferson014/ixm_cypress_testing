@@ -108,7 +108,7 @@ jobs:
           git push origin main
         if: success()
 
-      # Paso 12: Enviar notificación a Microsoft Teams
+      # Paso 12: Enviar notificación a Microsoft Teams demo
       - name: Send Teams notification
         if: always()
         uses: dchourasia/ms-teams-notification@1.0
