@@ -125,8 +125,13 @@ jobs:
           # Limpiar contenido anterior
           rm -rf docs/*
           mkdir -p docs
-          cp -R cypress/reports/html/* docs/
-        if: success()
+          # Listar contenido de cypress/reports/html para depurar
+          echo "Contenido de cypress/reports/html antes de copiar:"
+          ls -l cypress/reports/html/
+          # Copiar reporte
+          cp -R cypress/reports/html/* docs/ || echo "No report found to copy."
+        # Ejecutar siempre si Cypress corrió (éxito o fallo) para tener el reporte
+        if: always()
 
       # Paso 12: Commitear y pushear los artefactos a la rama main
       - name: Deploy Artifacts to GitHub Repo
