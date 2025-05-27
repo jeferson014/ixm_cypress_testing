@@ -111,16 +111,11 @@ jobs:
       # Paso 12: Enviar notificación a Microsoft Teams
       - name: Send Teams notification
         if: always()
-        uses: jdcargile/ms-teams-notification@v1.4
+        uses: dchourasia/ms-teams-notification@v1.1
         with:
           github-token: ${{ github.token }}
-          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-          notification-summary: |-
-            Resultados de las pruebas Cypress en ${{ github.repository }}
-            Status: ${{ job.status }}
-            Commit: ${{ github.sha }}
-            Branch: ${{ github.ref_name }}
-            Ver detalles de la ejecución aquí: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            ${{ job.status == 'success' && ':large_green_circle:' || ':red_circle:' }}
-          # Opcional: Cambiar el color de la notificación según el estado
-          notification-color: ${{ job.status == 'success' && '28a745' || 'dc3545' }}
+          webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          # Esta acción construirá una tarjeta completa automáticamente.
+          #enable-view-status: true  # Por defecto es true
+          # Opcional: Personalizar el texto del botón de ver estado
+          view-status-action-text: "Ver Ejecución en GitHub Actions"
