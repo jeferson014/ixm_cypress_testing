@@ -90,25 +90,48 @@ jobs:
           path: cypress/reports/html
           retention-days: 30
 
-      # Paso 8: Configurar Git para commitear desde el workflow
+      # Paso 8: Configurar Git para commitear los videos
+      - name: Git Config for Video Upload
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # Paso 9: Copiar los videos a una carpeta en el repositorio
+      - name: Copy Videos to Repo Folder
+        run: |
+          mkdir -p uploaded-videos
+          cp -R cypress/videos/* uploaded-videos/
+        # Solo copiar si hay videos generados
+        if: success() || failure()
+
+      # Paso 10: Commitear y pushear los videos a la rama main
+      - name: Deploy Videos to GitHub Repo
+        run: |
+          git add uploaded-videos/
+          git commit -m "feat: Cargar videos de Cypress a uploaded-videos [skip ci]" || true
+          git push origin main
+        # Solo intentar commitear y pushear si hay archivos para agregar
+        if: success() || failure()
+
+      # Paso 11: Configurar Git para commitear desde el workflow para el reporte
       - name: Git Config
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-      # Paso 9: Copiar el reporte a la carpeta docs
+      # Paso 12: Copiar el reporte a la carpeta docs
       - name: Copy Report to Docs
         run: |
           mkdir -p docs
           cp -R cypress/reports/html/* docs/
         if: success()
         
-      # Paso 10: Crear .nojekyll file para evitar que GitHub Pages use Jekyll
+      # Paso 13: Crear .nojekyll file para evitar que GitHub Pages use Jekyll
       - name: Create .nojekyll file
         run: echo "" > docs/.nojekyll
         if: success()
         
-      # Paso 11: Commitear y pushear los cambios a la rama main para GitHub Pages
+      # Paso 14: Commitear y pushear los cambios a la rama main para GitHub Pages
       - name: Deploy Report to GitHub Pages
         run: |
           git add docs
@@ -116,7 +139,7 @@ jobs:
           git push origin main
         if: success()
 
-      # Paso 12: Enviar notificación a Microsoft Teams demo
+      # Paso 15: Enviar notificación a Microsoft Teams demo
       - name: Send Teams notification
         if: always()
         uses: dchourasia/ms-teams-notification@1.0
