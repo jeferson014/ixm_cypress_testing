@@ -100,6 +100,8 @@ jobs:
       # Paso 9: Copiar los videos a una carpeta en el repositorio
       - name: Copy Videos to Repo Folder
         run: |
+          # Limpiar contenido anterior
+          rm -rf uploaded-videos/*
           mkdir -p uploaded-videos
           # Usar find para copiar solo si hay archivos (evitar error si la carpeta está vacía)
           find cypress/videos/ -mindepth 1 -maxdepth 1 -exec cp -R {} uploaded-videos/ \; || echo "No videos found to copy."
@@ -109,13 +111,24 @@ jobs:
       # Paso 10: Copiar los screenshots a una carpeta en el repositorio
       - name: Copy Screenshots to Repo Folder
         run: |
+          # Limpiar contenido anterior
+          rm -rf uploaded-screenshots/*
           mkdir -p uploaded-screenshots
           # Usar find para copiar solo si hay archivos (evitar error si la carpeta está vacía)
           find cypress/screenshots/ -mindepth 1 -maxdepth 1 -exec cp -R {} uploaded-screenshots/ \; || echo "No screenshots found to copy."
         # Intentar copiar siempre si Cypress corrió (éxito o fallo)
         if: always()
 
-      # Paso 11: Commitear y pushear los artefactos a la rama main
+      # Paso 11: Copiar el reporte a la carpeta docs
+      - name: Copy Report to Docs
+        run: |
+          # Limpiar contenido anterior
+          rm -rf docs/*
+          mkdir -p docs
+          cp -R cypress/reports/html/* docs/
+        if: success()
+
+      # Paso 12: Commitear y pushear los artefactos a la rama main
       - name: Deploy Artifacts to GitHub Repo
         run: |
           # Configurar la identidad de Git ANTES de commitear
@@ -130,27 +143,12 @@ jobs:
         # Intentar pushear siempre si se intentó copiar (el commit || true maneja el caso sin cambios)
         if: always()
 
-      # Paso 12: Copiar el reporte a la carpeta docs
-      - name: Copy Report to Docs
-        run: |
-          mkdir -p docs
-          cp -R cypress/reports/html/* docs/
-        if: success()
-        
       # Paso 13: Crear .nojekyll file para evitar que GitHub Pages use Jekyll
       - name: Create .nojekyll file
         run: echo "" > docs/.nojekyll
         if: success()
-        
-      # Paso 14: Commitear y pushear los cambios a la rama main para GitHub Pages
-      - name: Deploy Report to GitHub Pages
-        run: |
-          git add docs
-          git commit -m "Actualizar reporte de Cypress en GitHub Pages"
-          git push origin main
-        if: success()
 
-      # Paso 15: Enviar notificación a Microsoft Teams demo
+      # Paso 14: Enviar notificación a Microsoft Teams demo
       - name: Send Teams notification
         if: always()
         uses: dchourasia/ms-teams-notification@1.0
