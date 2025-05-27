@@ -113,7 +113,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # Agregar los archivos copiados
-          git add uploaded-videos/ cypress/reports/html/videos/
+          git add -f uploaded-videos/ cypress/reports/html/videos/
           # Commitear solo si hay cambios staged, ignorar error si no hay nada
           git commit -m "feat: Cargar videos de Cypress a uploaded-videos [skip ci]" || true
           # Pushear a la rama main
