@@ -111,7 +111,7 @@ jobs:
       # Paso 12: Enviar notificación a Microsoft Teams
       - name: Send Teams notification
         if: always()
-        uses: dchourasia/ms-teams-notification@v1.0
+        uses: dchourasia/ms-teams-notification@1.0
         with:
           github-token: ${{ github.token }}
           webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
