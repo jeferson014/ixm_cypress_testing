@@ -183,6 +183,8 @@ jobs:
         with:
           github-token: ${{ github.token }}
           webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          card-layout-exit: complete
+          show-on-exit: true
           custom-facts: |
             - name: Commit
               value: ${{ github.sha }}
