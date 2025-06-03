@@ -184,8 +184,17 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v1.9
+      - name: Instalar SonarScanner CLI
+        run: |
+          npm install -g sonarqube-scanner
+
+      - name: Ejecutar análisis SonarCloud
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          npx sonarqube-scanner \
+            -Dsonar.projectKey=jefferson014_ixm_cypress_testing \
+            -Dsonar.organization=jefferson014 \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN
