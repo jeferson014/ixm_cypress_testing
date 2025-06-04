@@ -194,4 +194,4 @@ jobs:
               value: ${{ job.status }}
           custom-actions: |
             - text: Ver reporte SonarCloud
-              url: "https://sonarcloud.io/dashboard?id=jefferson014_ixm_cypress_testing&branch=main"
+              url: "https://sonarcloud.io/dashboard?id=jeferson014_ixm_cypress_testing&branch=main"
