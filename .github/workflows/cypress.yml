@@ -195,3 +195,44 @@ jobs:
           custom-actions: |
             - text: Ver reporte SonarCloud
               url: "https://sonarcloud.io/dashboard?id=jeferson014_ixm_cypress_testing&branch=main"
+
+  # Job para análisis de código con GitHub Code Scanning
+  code-scanning:
+    name: GitHub Code Scanning
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:javascript"
+
+      - name: Notificar resultado de Code Scanning a Teams
+        if: always()
+        uses: dchourasia/ms-teams-notification@1.0
+        with:
+          github-token: ${{ github.token }}
+          webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          card-layout-exit: complete
+          show-on-exit: true
+          custom-facts: |
+            - name: Commit
+              value: ${{ github.sha }}
+            - name: Autor
+              value: ${{ github.actor }}
+            - name: Resultado análisis
+              value: ${{ job.status }}
+          custom-actions: |
+            - text: Ver reporte Code Scanning
+              url: "https://github.com/${{ github.repository }}/security/code-scanning"
